@@ -1,0 +1,210 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Tracker page {% endblock %}
+{% block css %}
+body{
+background-image: linear-gradient(120deg,#3498db,#8e44ad);
+}
+.scrollable-menu {
+height: auto;
+max-height: 200px;
+overflow-x: hidden;
+}
+{% endblock %}
+{% block body %}
+<div class="container my-2">
+    <div class="col">
+        <h2>Step-1 My Awesome Cart Express Checkout Review Your Cart</h2>
+        <div class="items">
+            <ul class="list-group">
+            </ul>
+        </div>
+    </div>
+    <div class="col my-2">
+        <h2>Step 2-Enter Adderss and Other Details</h2>
+        <form action="\shop\checkout" method="post">{% csrf_token %}
+            <input type="hidden" name="itemsJson" id="itemJson">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputname">Name</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="1234 Main St">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress2">Address Line 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                </br>
+                   <label for="city">Choose a city:</label>
+                    <select name="city" id="city">
+                       <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            City
+                        </button>-->
+                        <!--<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">-->
+                            <option >srinagar</option>
+                            <option >jammu</option>
+                            <option >shimla</option>
+                            <option >dehradun</option>
+                            <option >haridwar</option>
+                            <option >roorkee</option>
+                            <option >chandigarh</option>
+                            <option >jalandhar</option>
+                            <option >amritsar</option>
+                            <option >ludhiana</option>
+                            <option >karnal</option>
+                            <option >muzzafarnagar</option>
+                            <option >meerut</option>
+                            <option >delhi</option>
+                            <option >alwar</option>
+                            <option >bikaner</option>
+                            <option >jaipur</option>
+                            <option >gandhinagar</option>
+                            <option >udaipur</option>
+                            <option >kota</option>
+                            <option >ahemdabad</option>
+                            <option >mumbai</option>
+                            <option >panaji</option>
+                            <option >bengaluru</option>
+                            <option >kochi</option>
+                            <option >chennai</option>
+                            <option >vishakhapatnam</option>
+                            <option >bhubaneshwar</option>
+                            <option >bhopal</option>
+                            <option >nagpur</option>
+                            <option >nanded</option>
+                            <option >kolkata</option>
+                            <option >patna</option>
+                            <option >agra</option>
+                            <option >lucknow</option>
+                        </select>
+                        
+                    </div>
+                  <!--  <input type="hidden" class="form-control" id="city" name="city">-->
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <input type="name" class="form-control" id="state" name="state">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="zip_code" name="zip_code">
+                </div>
+                <div class="form-groups">
+                    <label for="inputPhone">Phone No</label>
+                    <input type="tel" class="form-control" id="phone" name="phone">
+                </div>
+            </div>
+        </br>
+            <button type="submit" class="btn btn-primary">Place Order</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+
+recommend = JSON.parse(localStorage.getItem('recommend'));
+
+function savecart() {
+    if (cart == null) {
+        cart = {};
+    }
+    $('#cartJson').val(JSON.stringify(cart))
+    $('#recommend').val(JSON.stringify(recommend))
+    localStorage.clear()
+
+}
+
+
+
+/*if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    //console.log(cart)
+    updateCart(cart);
+}*/
+cart = JSON.parse(localStorage.getItem('cart'));
+//console.log(cart)
+updateCart(cart);
+
+//console.log(cart);
+
+var sum = 0;
+
+if ($.isEmptyObject(cart)) {
+    myStr = `<p>Your cart is empty Please Add some items in your Cart</p>`
+    $('.items').append(myStr);
+} else {
+
+    for (item in cart) {
+        let name = cart[item][1];
+        let qty = cart[item][0];
+        sum = sum + qty;
+        myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <option class="badge badge-primary badge-pill">${qty}</option>
+                </li>`
+        $('.items').append(myStr);
+    }
+}
+document.getElementById('cart').innerHTML = sum;
+$('#itemJson').val(JSON.stringify(cart))
+ {% if thank %}
+clearCart();
+alert('Thanks For ordering with us Your order id is {{id}} use it to track your order with our tracker ');
+
+document.location = "/shop"; 
+{% endif %}
+
+
+//Add Popover to cart
+$('#popcart').popover();
+updatePopover(cart);
+
+function updatePopover(cart) {
+    //console.log('We are inside updatePopover');
+    var popStr = "";
+    popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+    var i = 1;
+    for (var item in cart) {
+        popStr = popStr + "<b>" + i + "</b>. ";
+        popStr = popStr + cart[item][1].slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+        i = i + 1;
+    }
+    popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
+    //console.log(popStr);
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+}
+
+function clearCart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+
+    localStorage.removeItem('cart');
+    cart = {};
+    updateCart(cart);
+}
+
+function updateCart(cart) {
+    var sum = 0;
+    for (var item in cart) {
+        //  console.log(item)
+        sum = sum + cart[item][0];
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = sum;
+    //console.log(cart);
+    updatePopover(cart);
+}
+</script>
+{% endblock %}

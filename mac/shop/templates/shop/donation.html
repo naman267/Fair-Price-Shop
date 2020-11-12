@@ -1,0 +1,54 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Donation page {% endblock %}
+{% block css%}
+body{
+	    
+      background-image: linear-gradient(120deg,#3498db,#8e44ad);
+}
+{% endblock%}
+{% block body %} 
+
+<div class="container my-4">
+
+<h2 class="flex justify-center">DONATE ANYTHING YOU WANT</h2>
+<div><h5>1. As the world is hit by many calamities it is the responsiblity of every human being to help other in need</h5></div>
+<div><h5>2. Donate anything you want</h5></div>
+<div><h5>3. Ngo near to your place will come to collect your donations</h5></div>
+
+<form method="post" action="/shop/Donate">{% csrf_token %}
+  <div class="form-group">
+    <label for="name">Name of Item</label>
+    <input type="name" class="form-control" name="name" id="name" >
+   
+  </div>
+  <div class="form-group">
+    <label for="quantity">quantity</label>
+    <input type="name" name="quantity" class="form-control" id="quantitiy">
+  </div>
+
+   <div class="form-group">
+    <label for="adderess">Adderess</label>
+    <input type="name" class="form-control" name="adderess" id="adderess">
+  </div>
+
+   <div class="form-group">
+    <label for="phone">Phone-No</label>
+    <input type="phone" class="form-control" name="phone" id="phone">
+  </div>
+ 
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+</div>
+
+{% endblock %}
+{% block js%}
+<script>
+{% if ok %}
+alert("Thanks for donating")
+doucument.location="/shop/Donate"
+{% endif %}
+</script>
+
+{% endblock %}

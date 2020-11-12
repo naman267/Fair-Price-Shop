@@ -1,0 +1,213 @@
+<!--
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Hello, world!</title>
+    <style>
+        .login{
+        margin-top:20px;
+      }
+      .containerr {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    
+}
+.login{padding:10px;
+  border-style:groove;
+  
+  width:600px;
+  height:600px;
+
+}
+.contain{
+    margin-left:240px;
+}
+.conta{
+    margin-left:200px;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome to My Awesome Cart </h2>
+        <h5>Create a New Account To Continue</h5>
+        <div class="containerr row align-items-center">
+            <form method="post" action="/shop/signup" class="login "> {% csrf_token %}
+                <div class="form-group d-flex justify-content-between">
+                  <label for="fname">First Name</label>
+                  <input type="name" size="10" class="form-control" id="fname" name="fname" placeholder="First Name" aria-describedby="emailHelp" required>
+                     <label for="lname">Last Name</label>
+                    <input type="name" class="form-control" id="lname" name="lname" placeholder="Last Name" aria-describedby="emailHelp" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="username">UserName</label>
+                    <input type="name" class="form-control" id="username" required name="username" placeholder="Enter Your UserName" aria-describedby="emailHelp">
+                </div>
+                <div class="form-groups">
+                    <label for="inputPhone">Phone No</label>
+                    <input type="tel" class="form-control" id="phone"  required placeholder="Phone No" size="10" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" required name="email" placeholder="Enter Your Email" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" placeholder="Enter your password" class="form-control" id="password" name="password" required>
+                <button type="submit" class="btn contain btn-primary my-4">Sign up</button>
+            </div>
+           <span class="conta"> Already registered?</span>
+            <a href="/">login</a>
+                    
+            </form>
+        </div>
+    </div>
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script>
+{% if Account %}
+alert("Account with this username is already present")
+{% endif %}
+
+  </script>
+</body>
+
+
+</html>
+
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SignUp Page</title>
+    <style>
+        /*body background css*/
+{% load static %}
+body{
+    padding: 0;
+    margin: 0;
+    background: url({% static '/shop/img1.jpg' %})no-repeat;
+    background-size: cover;
+}
+
+/*login form css*/
+.form{
+    font-family: "Roboto", sans-serif;
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    opacity: 99%;
+    max-width: 260px;
+    margin: 100px auto 100px;
+    padding: 10px 45px 30px 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+}
+.form p{
+    font-size: 15px;
+    padding: 1px;
+    text-align: center;
+}
+.form input{
+    outline: 0;
+    border-radius: 10px;
+    background: #F2F2F2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.form input:hover{
+    background-color: #D3F8F9;
+    transition: all 1s ease 0s;
+}
+.form input:focus{
+    background-color: #D3F8F9;
+    transition: all 1s ease 0s;
+}
+.form button{
+    text-transform: uppercase;
+    outline: 0;
+    border-radius: 10px;
+    background: #1ADBE5;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+.form button:hover, .form button:active, .form button:focus{
+    background-color: #06C5CF;
+    transition: all 1s ease 0s;
+}
+.form .message{
+    margin: 15px 0 0;
+    color: #B3B3B3;
+    font-size: 12px;
+}
+.form .message a{
+    color: #06C5CF;
+    text-decoration: none;
+}                  
+.container{
+    margin-left:650px;
+    font-size:large;
+    color: rgb(255,255,255);
+}    
+
+                           
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <h1><u>Fair Price Shop</u></h1>
+    </div>
+    <div class="form">
+        <p>Sign Up</p>
+        <form method="post" action="/shop/signup" class="login "> {% csrf_token %}
+            <input type="name" size="10" class="form-control" id="fname" name="fname" placeholder="First Name" aria-describedby="emailHelp" required>
+            <input type="name" class="form-control" id="lname" name="lname" placeholder="Last Name" aria-describedby="emailHelp" required>
+            <input type="name" class="form-control" id="username" required name="username" placeholder="Username" aria-describedby="emailHelp">
+         
+                <input type="tel" class="form-control" id="phone" required placeholder="Phone No" size="10" name="phone">
+           
+           
+                <input type="email" class="form-control" id="email" required name="email" placeholder="Enter Your Email" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            
+            
+                <input type="password" placeholder="Enter your password" class="form-control" id="password" name="password" required>
+               
+                 <button type="submit">Sign up</button>
+                <p class="message">Already registered? <a href="/">Login</a></p>
+        </form>
+    </div>
+    <script>
+    {% if Account %}
+    alert("Account with this username is already present") 
+    {% endif %}
+    </script>
+</body>
+
+</html>

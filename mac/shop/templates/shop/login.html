@@ -1,0 +1,186 @@
+<!--
+<html lang="en">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Hello, world!</title>
+    <style>
+        body{
+        background-color:rgb(235,235,235);
+      }
+      .login{
+        margin-top:20px;
+      }
+      .containerr {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login{padding:10px;
+  border-style:groove;
+  
+
+}
+.contain{
+  margin-left:100px;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Welcome to FAIR PRICE SHOP </h2>
+        <h5>Login/Signup to Continue</h5>
+        <div class="containerr">
+            <form method="post" action="/shop/login" class="login ">{% csrf_token %}
+                <div class="form-group">
+                    <label for="Username">Username</label>
+                    <input type="name" class="form-control" id="Username" name="Username" placeholder="Enter Your Username" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="passwordlogin">Password</label>
+                    <input type="password" placeholder="Enter your password" class="form-control" id="passwordlogin" name="passwordlogin">
+                    <button type="submit" class="btn contain btn-primary my-4">Login</button></div>
+                Dont have an account?
+                <a href="/shop/signup"> Signup</a>
+            </form>
+        </div>
+    </div>
+    </div>
+    
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    c
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+
+<style>
+/*body background css*/
+{% load static %}
+body{
+    padding: 0;
+    margin: 0;
+    background: url({% static '/shop/img1.jpg' %})no-repeat;
+    background-size: cover;
+}
+
+/*login form css*/
+.form{
+    font-family: "Roboto", sans-serif;
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    opacity: 99%;
+    max-width: 260px;
+    margin: 150px auto 100px;
+    padding: 10px 45px 30px 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+}
+.form p{
+    font-size: 15px;
+    padding: 1px;
+    text-align: center;
+}
+.form input{
+    outline: 0;
+    border-radius: 10px;
+    background: #F2F2F2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.form input:hover{
+    background-color: #D3F8F9;
+    transition: all 1s ease 0s;
+}
+.form input:focus{
+    background-color: #D3F8F9;
+    transition: all 1s ease 0s;
+}
+.form button{
+    text-transform: uppercase;
+    outline: 0;
+    border-radius: 10px;
+    background: #1ADBE5;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+}
+.form button:hover, .form button:active, .form button:focus{
+    background-color: #06C5CF;
+    transition: all 1s ease 0s;
+}
+.form .message{
+    margin: 15px 0 0;
+    color: #B3B3B3;
+    font-size: 12px;
+}
+.form .message a{
+    color: #06C5CF;
+    text-decoration: none;
+}                  
+.container{
+    margin-left:650px;
+    font-size:large;
+    color: rgb(255,255,255);
+}    
+
+                           
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1><u>Fair Price Shop</u></h1>
+    </div>
+    <div class="form">
+    <p>Login</p>
+     <form method="post" action="/shop/login" class="login ">{% csrf_token %}
+        <input type="text" name="Username" placeholder="Username">
+        <input type="password" name="passwordlogin" placeholder="password">
+        <button type="submit">login</button>
+        <p class="message">Not registered? <a href="/shop/signup">Create an account</a></p>
+    </form>
+    </div>
+    <script>
+    {% if logout %}
+    alert("Logout succesfully ")
+    document.location = "/" 
+    {% endif %} 
+    {% if not account %}
+    alert("Login Failed Try Again ")
+    document.location = "/shop/login" 
+    {% endif %}
+    </script>
+</body>
+</html>
+                           
+
+
+
+
+
+

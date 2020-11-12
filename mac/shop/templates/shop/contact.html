@@ -1,0 +1,94 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Tracker page {% endblock %}
+{% block css%}
+body{
+        
+        background-image: linear-gradient(120deg,#3498db,#8e44ad);
+}
+{% endblock%}
+
+{% block body %}
+<div class="container">
+    <h5>Contact us for any query</h5>
+    <form action="/shop/contact/" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+        </div>
+        <div class="form-group">
+            <label for="name">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+        </div>
+        <div class="form-group">
+            <label for="name">Phone No</label>
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone no">
+        </div>
+        <div class="form-group">
+            <label for="desc">How we may help you</label>
+            <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Success</button>
+    </form>
+</div>
+<script>
+recommend=JSON.parse(localStorage.getItem('recommend'));
+cart=JSON.parse(localStorage.getItem('cart'));
+function savecart()
+    {if(cart==null)
+        {
+            cart={};
+        }
+     $('#cartJson').val(JSON.stringify(cart))
+     $('#recommend').val(JSON.stringify(recommend))
+     localStorage.clear()
+      
+    }
+</script>
+{% endblock %}
+{% block js %}
+<script>
+var cart = JSON.parse(localStorage.getItem('cart'));
+
+//Add Popover to cart
+$('#popcart').popover();
+updatePopover(cart);
+
+function updatePopover(cart) {
+    //   console.log('We are inside updatePopover');
+    var popStr = "";
+    popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+    var i = 1;
+    // console.log(cart)
+    for (var item in cart) {
+        popStr = popStr + "<b>" + i + "</b>. ";
+        popStr = popStr + cart[item][1].slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+        i = i + 1;
+    }
+    popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
+    // console.log(popStr);
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+}
+
+function clearCart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+
+    localStorage.clear();
+    cart = {};
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updatePopover(cart);
+}
+
+
+var sum = 0;
+
+for (var item in cart) {
+    sum = sum + cart[item][0];
+
+}
+
+document.getElementById('cart').innerHTML = sum;
+console.log(cart);
+updatePopover(cart);
+</script>
+{% endblock %}

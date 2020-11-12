@@ -1,0 +1,175 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Tracker page {% endblock %}
+{% block css%}
+body{
+    
+    background-image: linear-gradient(120deg,#3498db,#8e44ad);
+}
+table, th, td {
+border: 1px solid black;
+border-collapse: collapse;
+#items{
+zoom:125%;
+}
+}
+{% endblock %}
+{% block body %}
+{% load static %}
+<div class="container my-2">
+
+    <div class="col">
+        <h2>My Awesome Cart- Enter Your Order Id and Email to Track Your Order</h2>
+        <form action="#" method="post" id="trackerForm">{% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputname">Order Id</label>
+                    <input type="text" class="form-control" id="OrderId" name="OrderId">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <button type="submit" class="btn btn-primary">Track Order</button>
+            </div>
+        </form>
+    </div>
+    <div class="col my-2">
+        <h2>Your Order Status</h2>
+        <div class="my-4" id="graph">
+            <ul class="list-group" id="items">
+                Enter Email and Id to track your order
+            </ul>
+        </div>
+        <h2>Table</h2>
+        <div id="table">
+        </div>
+        <h2>Your Order Details</h2>
+        <div class="my-4">
+            <ul class="list-group" id="citems">
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="module" src="{% static '/createGraph.js' %}"></script>
+<script>
+    recommend=JSON.parse(localStorage.getItem('recommend'));
+cart=JSON.parse(localStorage.getItem('cart'));
+function savecart()
+    {if(cart==null)
+        {
+            cart={};
+        }
+     $('#cartJson').val(JSON.stringify(cart))
+     $('#recommend').val(JSON.stringify(recommend))
+     localStorage.clear()
+      
+    }
+</script>
+{% endblock %}
+{% block js %}
+<script type="module">
+    import {track} from "{% static '/createGraph.js' %}" ;
+
+var cart = JSON.parse(localStorage.getItem('cart'));
+
+//Add Popover to cart
+$('#popcart').popover();
+updatePopover(cart);
+
+function updatePopover(cart) {
+ //   console.log('We are inside updatePopover');
+    var popStr = "";
+    popStr = popStr + "<h5> Cart for your items in my shopping cart </h5><div class='mx-2 my-2'>";
+    var i = 1;
+   // console.log(cart)
+    for (var item in cart) {
+        popStr = popStr + "<b>" + i + "</b>. ";
+        popStr = popStr + cart[item][1].slice(0, 19) + "... Qty: " + cart[item][0] + '<br>';
+        i = i + 1;
+    }
+    popStr = popStr + "</div> <a href='/shop/checkout'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>     "
+   // console.log(popStr);
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+}
+
+function clearCart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    
+    localStorage.removeItem('cart');
+    cart = {};
+    localStorage.setItem('cart',JSON.stringify(cart));
+    updatePopover(cart);
+}
+     
+
+    var sum = 0;
+
+    for (var item in cart) {
+        sum = sum + cart[item][0];
+       
+    }
+
+    document.getElementById('cart').innerHTML = sum;
+    console.log(cart);
+    updatePopover(cart);
+
+
+$('#trackerForm').submit(function(event) {
+    $('#items').empty();
+     
+    var formData = {
+        'orderId': $('input[name=OrderId]').val(),
+        'email': $('input[name=email]').val(),
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+    $.ajax({
+            type: 'POST',
+            url: '/shop/tracker',
+            data: formData,
+            encode: true
+        })
+        .done(function(data) {
+          $('#citems').empty()
+          console.log(data)
+            data=JSON.parse(data)
+
+            if(data["status"]==="success")
+            {
+               // updates=data["updates"]
+           // console.log(updates)
+            var city=data["city"];
+            console.log(data["city"]);
+            track(city);
+            
+     
+     var cart=JSON.parse(data["itemsjson"])
+      console.log(cart)
+     for (var item in cart) {
+        let name = cart[item][1];
+        let qty = cart[item][0];
+
+       var  myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
+        $('#citems').append(myStr);
+    }
+}
+    
+    else{
+      myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sorry we are unable to fetch any order with this Email and ID make sure to enter correct Email and ID
+                    <span class="badge badge-primary badge-pill></span>
+                </li>`
+        $('#items').append(myStr);
+        $('#citems').append(myStr);
+    }
+
+
+});
+    event.preventDefault();
+});
+</script>
+{% endblock %}

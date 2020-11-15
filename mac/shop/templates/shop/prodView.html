@@ -10,6 +10,16 @@ margin-left:5px;
 body{
   background-image: linear-gradient(120deg,#3498db,#8e44ad);
 }
+.recommen{
+  width:200px;
+  height:400px;
+}
+.recomme{
+  height:200px;
+}
+.desc{
+  color:white;
+}
 {% endblock %}
 {% block body %}
 {% load static %}
@@ -29,7 +39,7 @@ body{
         <div class="col-md-8">
             <h5 id="namepr">{{product.product_name}}</h5>
             <p><b>Rs.{{product.price}}</b></p>
-            <p>{{product.desc}}</p>
+            <p class="desc">{{product.desc}}</p>
             <input type="hidden" class="image" id="{{product.image}}">
         </div>
     </div>
@@ -105,12 +115,13 @@ var name=document.getElementById('namepr').innerHTML
 var myStr=""
 for (let i=0;i<display.length;i++) {
         let name = display[i][2];
+        name=name.slice(0,10)+'..'
         let qty = display[i][0];
         let id3=display[i][3]
         console.log(name,qty)
         var image=display[i][1];
-        myStr = `<div class="card align-items-center" style="width: 18rem;">
-                            <img src='/media/${image}' class="card-img-top" alt="...">
+        myStr = `<div class="card recommen align-items-center" style="width: 18rem;">
+                            <img class="recomme" src='/media/${image}' class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">${name}</h5>
                                 <p class="card-text">Recommended product</p>
@@ -210,6 +221,7 @@ document.getElementById('divpr' + a).innerHTML = '<button id="pr'+a+'" class="bt
 $('.divpr').on("click", "button.plus", function() {
     var a = this.id.slice(6, );
     cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    cart['pr' + a][0] = Math.min(5, cart['pr' + a][0]);
     document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
     updateCart(cart);
 });

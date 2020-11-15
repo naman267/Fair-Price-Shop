@@ -255,6 +255,7 @@ document.getElementById('divpr' + a).innerHTML = '<button id="pr'+a+'" class="bt
 $('.divpr').on("click", "button.plus", function() {
     a = this.id.slice(6, );
     cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    cart['pr' + a][0] = Math.min(5, cart['pr' + a][0]);
     document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
     updateCart(cart);
 });

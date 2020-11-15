@@ -146,16 +146,25 @@ if ($.isEmptyObject(cart)) {
     $('.items').append(myStr);
 } else {
 
+      var finalprice=0;
     for (item in cart) {
         let name = cart[item][1];
         let qty = cart[item][0];
+        finalprice=cart[item][2]+finalprice;
         sum = sum + qty;
         myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
-                    ${name}
-                    <option class="badge badge-primary badge-pill">${qty}</option>
+                    ${name}(${qty})
+                  
+                    <option class="badge badge-primary badge-pill">${cart[item][2]}</option>
                 </li>`
         $('.items').append(myStr);
     }
+     var strr=`<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Total(${sum})
+                    <span class="badge badge-primary badge-pill">${finalprice}</span>
+
+                </li>`
+        $('.items').append(strr);
 }
 document.getElementById('cart').innerHTML = sum;
 $('#itemJson').val(JSON.stringify(cart))

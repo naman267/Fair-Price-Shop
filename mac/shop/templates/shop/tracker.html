@@ -144,7 +144,7 @@ $('#trackerForm').submit(function(event) {
             track(city);
             
      
-     var cart=JSON.parse(data["itemsjson"])
+     /*var cart=JSON.parse(data["itemsjson"])
       console.log(cart)
      for (var item in cart) {
         let name = cart[item][1];
@@ -155,7 +155,28 @@ $('#trackerForm').submit(function(event) {
                     <span class="badge badge-primary badge-pill">${qty}</span>
                 </li>`
         $('#citems').append(myStr);
+    }*/
+        var cart=JSON.parse(data["itemsjson"])
+      console.log(cart)
+      let finalprice=0;
+      let sum=0;
+     for (var item in cart) {
+        let name = cart[item][1];
+        let qty = cart[item][0];
+        sum=sum+qty
+        finalprice=finalprice+cart[item][2];
+
+       var  myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}(${qty})
+                    <span class="badge badge-primary badge-pill">${cart[item][2]}</span>
+                </li>`
+        $('#citems').append(myStr);
     }
+    var strr=`<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Total(${sum})
+                    <span class="badge badge-primary badge-pill">${finalprice}</span>
+                </li>`
+        $('#citems').append(strr);
 }
     
     else{

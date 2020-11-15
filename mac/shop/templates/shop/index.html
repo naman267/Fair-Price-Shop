@@ -75,7 +75,7 @@ transition duration:3s;
     <input type="hidden" id="{{cart_json}}" class="hidden">
     <!--Slideshow starts here -->
     {% for product, range, nSlides in allProds %}
-    <h5 class="my-4">Flash Sale On {{product.0.category}} - Recommended Items</h5>
+    <h3 class="my-4" >Flash Sale On {{product.0.category}} - Recommended Items</h3>
     <div id="colo" class="row">
         <div id="demo{{forloop.counter}}" class="col carousel slide my-3" data-ride="carousel">
             <ul class="carousel-indicators">
@@ -91,7 +91,7 @@ transition duration:3s;
                         <div class=" car card align-items-center  box-shadow-hover pointer " style="width: 18rem;">
                             <img src='/media/{{i.image}}' class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name|slice:"0:13"}}</h5>
+                                <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name|slice:"0:13"}}...</h5>
                                 <p class="card-text">{{i.desc|slice:"0:23"}}...</p>
                                 <p class="card-text" id="pricepr{{i.id}}">Rs-{{i.price}}</p>
                                 <span id="divpr{{i.id}}" class="divpr">

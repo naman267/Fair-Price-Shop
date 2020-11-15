@@ -163,12 +163,22 @@ body{
     <p>Login</p>
      <form method="post" action="/shop/login" class="login ">{% csrf_token %}
         <input type="text" name="Username" placeholder="Username">
-        <input type="password" name="passwordlogin" placeholder="password">
+        <input type="password" id="passwordlogin" name="passwordlogin" placeholder="password">
+        <input type="checkbox" onclick="myFunction()">Show Password
         <button type="submit">login</button>
         <p class="message">Not registered? <a href="/shop/signup">Create an account</a></p>
     </form>
     </div>
     <script>
+   function myFunction() {
+  var x = document.getElementById("passwordlogin");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
     {% if logout %}
     alert("Logout succesfully ")
     document.location = "/" 

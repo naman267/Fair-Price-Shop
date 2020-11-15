@@ -198,12 +198,22 @@ body{
             
             
                 <input type="password" placeholder="Enter your password" class="form-control" id="password" name="password" required>
+                <input type="checkbox" onclick="myFunction()">Show Password
                
                  <button type="submit">Sign up</button>
                 <p class="message">Already registered? <a href="/">Login</a></p>
         </form>
     </div>
     <script>
+ function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
     {% if Account %}
     alert("Account with this username is already present") 
     {% endif %}

@@ -20,6 +20,10 @@ body{
 .desc{
   color:white;
 }
+.btn11{
+  background-color:rgb(220,183,34);
+  color:black;
+}
 {% endblock %}
 {% block body %}
 {% load static %}
@@ -30,9 +34,9 @@ body{
                 <img src='/media/{{product.image}}' class="card-img-top" alt="...">
             </div>
             <div class="row my-4 mx-5">
-                <a href='/shop/buy/{{product.id}}'><button id="pr{{product.id}}" class="btn btn-primary buy">Buy now</button></a>
+                <a href='/shop/buy/{{product.id}}'><button id="pr{{product.id}}" class="btn btn11 btn-primary buy">Buy now</button></a>
                 <span id="divpr{{product.id}}" class="divpr">
-                    <button class="btn btn-primary cart ">Add To Cart</button>
+                    <button class="btn btn11 btn-primary cart ">Add To Cart</button>
                 </span>
             </div>
         </div>

@@ -1,8 +1,8 @@
 {% extends 'shop/basic.html' %}
 {% block title %}Tracker page {% endblock %}
 {% block css %}
-body{
-background-image: linear-gradient(120deg,#3498db,#8e44ad);
+    body{
+    background-image: linear-gradient(120deg,#3498db,#8e44ad);
 }
 .scrollable-menu {
 height: auto;
@@ -145,8 +145,7 @@ if ($.isEmptyObject(cart)) {
     myStr = `<p>Your cart is empty Please Add some items in your Cart</p>`
     $('.items').append(myStr);
 } else {
-
-      var finalprice=0;
+        var finalprice=0;
     for (item in cart) {
         let name = cart[item][1];
         let qty = cart[item][0];

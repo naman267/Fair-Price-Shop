@@ -390,34 +390,6 @@ class Handlesignup(View):
         except:
             return render(request, "shop/signup.html", {"Account": True})
 
-def handlesignup(request):
-    if request.method=='POST':
-        username=request.POST['username']
-        fname=request.POST['fname']
-        lname=request.POST['lname']
-        phone=request.POST['phone']
-        email=request.POST['email']
-        password=request.POST['password']
-        cart={}
-        cart=json.dumps(cart)
-        #'pr2":[3,"John Player Tshirt (L/M/XXL)"],"pr6":[3,"Lancer Shoes"],"pr7":[4,"Levis Jeans"]}'
-       # recommend={"pr2":[1,"John Player Tshirt"],"pr6":[1,"Lancer Shoes"],"pr7":[1,"Levis Jeans"]}
-        recommend={"pr52":[1,"shop/images/hideandseek.jpg","Parle Platina Hide & Seek Chocolate Chip",52],"pr47":[1,"shop/images/Haldi.jpg","Mother's Choice Turmeric Powder / Haldi",47],"pr61":[1,"shop/images/Foil.jpg","Happy Home Aluminium Foil (21 m)",61]}                                                                                                                                                                 
-        recommend=json.dumps(recommend)
-        try:
-            
-            myuser=User.objects.create_user(username,email,password)
-            profileuser=Profile(phone=phone,cart_json=cart,user=myuser,recommendedProduct=recommend)
-            profileuser.save()
-            login(request,myuser)
-
-            messages.success(request,"Account Created")
-            success=True
-            return render(request,"shop/index.html",{"Account":success})
-        
-        except:
-            return render(request,"shop/signup.html",{"Account":True})
-    return render(request,"shop/signup.html")
 
 
 
@@ -442,23 +414,3 @@ class Handlelogout(View):
         return render(request, "shop/login.html");
 
 
-def handlelogout(request):
-    if request.method=='POST':
-        datas=Profile.objects.get(user=request.user)
-       
-        cartJson=request.POST.get('cartJson','{}')
-        recommend=request.POST.get('recommend','{}')
-
-        print("yes",datas.phone)       
-        datas.cart_json=cartJson
-        datas.recommendedProduct=recommend
-        
-        datas.save()
-        
-        print(cartJson)
-        logout(request)
-        logoutt=True
-        return render(request,"shop/login.html",{"logout":logoutt})
-    
-
-    return Httpresponse("404 NOT FOUND")    

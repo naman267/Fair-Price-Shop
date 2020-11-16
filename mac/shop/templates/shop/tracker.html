@@ -11,6 +11,9 @@ border-collapse: collapse;
 #items{
 zoom:125%;
 }
+#graph{
+    background-color:grey;
+}
 }
 {% endblock %}
 {% block body %}
@@ -141,21 +144,12 @@ $('#trackerForm').submit(function(event) {
            // console.log(updates)
             var city=data["city"];
             console.log(data["city"]);
+            console.log("tracker",city);
+            city=city.toLowerCase();
             track(city);
             
      
-     /*var cart=JSON.parse(data["itemsjson"])
-      console.log(cart)
-     for (var item in cart) {
-        let name = cart[item][1];
-        let qty = cart[item][0];
-
-       var  myStr = `<li class="list-group-item d-flex justify-content-between align-items-center">
-                    ${name}
-                    <span class="badge badge-primary badge-pill">${qty}</span>
-                </li>`
-        $('#citems').append(myStr);
-    }*/
+ 
         var cart=JSON.parse(data["itemsjson"])
       console.log(cart)
       let finalprice=0;

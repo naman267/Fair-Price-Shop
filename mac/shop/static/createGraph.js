@@ -104,8 +104,16 @@ let distance2 = djikstra(graph,V,21);//mumbai
 let distance3 = djikstra(graph,V,31);//kolkata
 ////console.log(distances);
 var dest=dict[city];
+var complete=false;
+console.log(dest)
+console.log(city)
+if((dest==13) || (dest==21) || (dest==31))
+{complete=true;
 
+}
 
+if(!complete)
+{
 let path=[];
 let finalsource="source";
 if(distance1[dest][0]<=distance2[dest][0] && distance1[dest][0]<=distance3[dest][0] )
@@ -293,4 +301,11 @@ function create()
      document.getElementById('table').innerHTML=table; 
 
 };
+}
+else
+{
+    var table=`Your order is already at nearby center `;
+    document.getElementById('table').innerHTML=table; 
+}
+
 };

@@ -23,17 +23,7 @@ class Donate(View):
         params = {'ok': True}
         return render(request, "shop/donation.html", params)
 
-def donate(request):
-    if request.method=='POST':
-        name=request.POST['name']
-        qty=request.POST['quantity']
-        adderess=request.POST['adderess']
-        phone=request.POST['phone']
-        donate= Donation(name=name,quantity=qty,adderess=adderess,phone=phone)
-        donate.save()
-        params={'ok':True}
-        return render(request,"shop/donation.html",params)
-    return render(request,"shop/donation.html")
+
 
 class Index(View):
     def get(self,request,*args,**kwargs):
@@ -53,29 +43,12 @@ class Index(View):
         params = {'allProds': allProds, 'cart_json': cart, 'recommend': recommend}
         return render(request, "shop/index.html", params)
 
-#def index(request):
 
- #   catprods=Product.objects.values('category','id')
-  #  cats={item["category"] for item in catprods}
-  #  allProds=[]
-  #  user=Profile.objects.get(user=request.user)
-  #  cart=user.cart_json
-  #  recommend=user.recommendedProduct
-  #  print("ho",cart)
-  #  for cat in cats:
-   #     prod=Product.objects.filter(category=cat)
-   #     n = len(prod)
-   #     nslides = n // 3 + ceil((n / 3) - (n // 3))
-   #     allProds.append([prod,range(1,nslides),nslides])
-
-    #params={'allProds':allProds,'cart_json':cart,'recommend':recommend}
-    #return render(request,"shop/index.html",params)
 
 class About(View):
     def get(self,request,*args,**kwargs):
         return render(request, "shop/about.html")
-def about(request):
-    return render(request,"shop/about.html")
+
 
 class Ccontact(View):
     def get(self,request,*args,**kwargs):
@@ -91,16 +64,7 @@ class Ccontact(View):
         contact.save()
         return render(request, "shop/contact.html")
 
-def contact(request):
-    if request.method=='POST':
-        print(request)
-        name=request.POST.get('name','')
-        email=request.POST.get('email','')
-        phone=request.POST.get('phone','')
-        desc=request.POST.get('desc','')
-        contact= Contact(name=name,email=email,phone=phone,desc=desc)
-        contact.save()
-    return render(request, "shop/contact.html")
+
 class Tracker(View):
     def get(self,request,*args,**kwargs):
         return render(request, "shop/tracker.html")
@@ -171,11 +135,7 @@ class Prodview(View):
         params = {"product": product[0]}
         return render(request, "shop/prodView.html", params)
 
-def prodView(request,myid):
-    product = Product.objects.filter(id=myid)
-    print(product)
-    params={"product":product[0]}
-    return render(request, "shop/prodView.html" ,params)
+
 def searchquery(query,item):
     query=query.lower()
 
@@ -194,7 +154,7 @@ class Search(View):
             prodtemp = Product.objects.filter(category=cat)
             prod = [item for item in prodtemp if searchquery(query, item)]
             n = len(prod)
-            nslides = n // 4 + ceil((n / 4) - (n // 4))
+            nslides = n // 3 + ceil((n / 3) - (n // 3))
             if len(prod) != 0:
                 allProds.append([prod, range(1, nslides), nslides])
 
@@ -202,21 +162,7 @@ class Search(View):
         return render(request, "shop/index.html", params)
 
 
-def search(request):
-    query=request.GET.get('search','')
-    catprods = Product.objects.values('category', 'id')
-    cats = {item["category"] for item in catprods}
-    allProds = []
-    for cat in cats:
-        prodtemp = Product.objects.filter(category=cat)
-        prod=[item for item in prodtemp if searchquery(query,item)]
-        n = len(prod)
-        nslides = n // 4 + ceil((n / 4) - (n // 4))
-        if len(prod)!=0:
-            allProds.append([prod, range(1, nslides), nslides])
 
-    params = {'allProds': allProds}
-    return render(request, "shop/index.html",params)
 class Checkout(View):
     def get(self,request,*args,**kwargs):
         return render(request, "shop/checkout.html")
@@ -241,27 +187,6 @@ class Checkout(View):
         return render(request, "shop/checkout.html", {'thank': thank, 'id': id})
 
 
-def checkout(request):
-    print(request.method)
-    if request.method == 'POST':
-        items_json=request.POST.get('itemsJson','')
-        name = request.POST.get('name', '')
-        email = request.POST.get('email', '')
-        address = request.POST.get('address1', '')+" "+request.POST.get('address2', '')
-
-        phone = request.POST.get('phone', '')
-        city = request.POST.get('city', '')
-        state = request.POST.get('state', '')
-        zip_code = request.POST.get('zip_code', '')
-        order = Order(item_json=items_json,name=name, email=email, phone=phone, address=address,city=city,state=state,zip_code=zip_code)
-        order.save()
-        update=OrderUpdate(order_id=order.order_id,update_desc="Order has been Placed")
-        update.save()
-        id=order.order_id
-        thank=True
-        print(items_json)
-        return render(request, "shop/checkout.html", {'thank': thank , 'id' : id  })
-    return render(request,"shop/checkout.html")
 
 class Buy(View):
     def get(self,request,myid,*args,**kwargs):
@@ -288,28 +213,7 @@ class Buy(View):
         thank=True
         return render(request, "shop/buy.html", {'thank': thank , 'id' : id  })
 
-def buy(request,myid):
-    product = Product.objects.filter(id=myid)
-    print(product)
-    params={"product":product[0]}
-    if request.method == 'POST':
-        items_json=request.POST.get('itemsJson','')
-        name = request.POST.get('name', '')
-        email = request.POST.get('email', '')
-        address = request.POST.get('address1', '')+" "+request.POST.get('address2', '')
 
-        phone = request.POST.get('phone', '')
-        city = request.POST.get('city', '')
-        state = request.POST.get('state', '')
-        zip_code = request.POST.get('zip_code', '')
-        order = Order(item_json=items_json,name=name, email=email, phone=phone, address=address,city=city,state=state,zip_code=zip_code)
-        order.save()
-        update=OrderUpdate(order_id=order.order_id,update_desc="Order has been Placed")
-        update.save()
-        id=order.order_id
-        thank=True
-        return render(request, "shop/buy.html", {'thank': thank , 'id' : id  })
-    return render(request, "shop/buy.html" ,params)
 
 
 class Handlelogin(View):
@@ -325,9 +229,7 @@ class Handlelogin(View):
             print(user)
             if user is not None:
                 login(request, user)
-                # user=Profile.objects.get(user=request.user)
-                # cart=user.cart_json
-                # print("ho",cart)*/
+              
                 messages.success(request, 'Login Succesfully')
                 account = True
 

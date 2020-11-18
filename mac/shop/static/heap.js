@@ -1,5 +1,3 @@
-
-
 export { BinaryHeap }
 
 class BinaryHeap {

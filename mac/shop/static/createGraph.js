@@ -86,7 +86,7 @@ function djikstra(graph, V, src) {
 }
 
 let cities=['srinagar','jammu','shimla','dehradun','haridwar','roorkee','chandigarh','jalandhar','amritsar','ludhiana','karnal',
-'muzzrfarnagar','meerut','delhi','alwar','bikaner','jaipur','gandhinagar','udaipur','kota','ahemdabad','mumbai','panaji','bengaluru',
+'muzaffarnagar','meerut','delhi','alwar','bikaner','jaipur','gandhinagar','udaipur','kota','ahemdabad','mumbai','panaji','bengaluru',
 'kochi','chennai','vishakhapatnam','bhubaneshwar','bhopal','nagpur','nanded','kolkata','patna','agra','lucknow'];
 let V=cities.length;
 
